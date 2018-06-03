@@ -5,6 +5,7 @@ import TextHeadings from './elements/TextHeadings'
 import Icons from './elements/Icons'
 import Exam from './elements/Exam'
 import QuestionTypeButtonGroupChooser from './elements/QuestionTypeButtonGroupChooser'
+import QuestionTypePicker from './elements/QuestionTypePicker'
 
 export default class App extends React.Component {
   render() {
@@ -13,6 +14,7 @@ export default class App extends React.Component {
           <StatusBar hidden={true} barStyle="light-content"/>
           <FixedHeader/>
           <QuestionTypeButtonGroupChooser/>
+          <QuestionTypePicker/>
           <View style={{padding:20}}>
           <TextHeadings/>
               <Icons/>
