@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Picker, View,Text} from 'react-native'
 
 
-export default class QuestionTypePicker extends Component {
+    export default class QuestionTypePicker extends Component {
     constructor(props) {
         super(props)
         this.state = {questionType: 'MC'}

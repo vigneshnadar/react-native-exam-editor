@@ -8,8 +8,14 @@ import Exam from './elements/Exam'
 import QuestionTypeButtonGroupChooser from './elements/QuestionTypeButtonGroupChooser'
 import QuestionTypePicker from './elements/QuestionTypePicker'
 import TrueFalseQuestionEditor from './elements/TrueFalseQuestionEditor'
+import MultipleChoiceQuestionEditor from './elements/MultipleChoiceQuestionEditor'
 import { createStackNavigator } from 'react-navigation'
 import ScreenX from './elements/ScreenX'
+import CourseList from './components/CourseList'
+import ModuleList from './components/ModuleList'
+import LessonList from './components/LessonList'
+import WidgetList from './components/WidgetList'
+import QuestionList from './components/QuestionList'
 
 class Home extends React.Component
 {
@@ -35,6 +41,9 @@ class Home extends React.Component
                 <Button title="Go to Screen X"
                         onPress={() => this.props.navigation
                             .navigate('ScreenX',{'parameter': 'some value'})}/>
+                <Button title="Go to Course List"
+                        onPress={() => this.props.navigation
+                            .navigate('CourseList')}/>
 
 
 
@@ -88,10 +97,17 @@ class ScreenB extends React.Component{
 }
 
 const App = createStackNavigator({
-    Home: { screen: Home },
-    ScreenA: { screen: ScreenA },
-    ScreenB: { screen: ScreenB },
-    ScreenX: { screen: ScreenX }
+    Home,
+    CourseList,
+    ModuleList,
+    LessonList,
+    WidgetList,
+    QuestionList,
+    TrueFalseQuestionEditor,
+    MultipleChoiceQuestionEditor,
+    ScreenA,
+    ScreenB,
+    ScreenX
 });
 
 

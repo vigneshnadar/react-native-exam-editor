@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import {View, Alert} from 'react-native'
+import {View, Alert,Picker,Button} from 'react-native'
 import {Text, ListItem} from 'react-native-elements'
+import QuestionTypePicker from '../elements/QuestionTypePicker'
 
 class QuestionList extends Component {
   static navigationOptions = {title: 'Questions'}
@@ -8,8 +9,13 @@ class QuestionList extends Component {
     super(props)
     this.state = {
       questions: [],
-      examId: 1
+      examId: 1,
+        questionType  : 'MC'
     }
+
+    this.addQuestion = this.addQuestion.bind(this);
+
+
   }
   componentDidMount() {
     const {navigation} = this.props;
@@ -18,9 +24,33 @@ class QuestionList extends Component {
       .then(response => (response.json()))
       .then(questions => this.setState({questions}))
   }
+
+
+    addQuestion(newQuestionType) {
+        this.setState({ questions: [ ...this.state.questions, {
+          type: newQuestionType,title: 'new question',description: newQuestionType
+            }]})
+    }
+
+
   render() {
     return(
       <View style={{padding: 15}}>
+
+          <Picker
+              selectedValue={this.state.questionType}
+              onValueChange={(itemValue, itemIndex) =>
+                  this.setState({questionType: itemValue})}>
+              <Picker.Item key="1" value="Multiple choice" label="Multiple choice" />
+              <Picker.Item key="2" value="Essay" label="Essay" />
+              <Picker.Item key="3" value="True or false" label="True or false" />
+              <Picker.Item key="4" value="Fill in the blanks" label="Fill in the blanks" />
+          </Picker>
+          <Text>{this.state.questionType}</Text>
+          <Button title="Add Question"
+                  onPress={() => this.addQuestion
+                  (this.state.questionType)}/>
+
       {this.state.questions.map(
         (question, index) => (
           <ListItem
