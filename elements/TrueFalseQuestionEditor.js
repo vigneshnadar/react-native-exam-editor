@@ -37,6 +37,13 @@ export default class TrueFalseQuestionEditor extends Component {
                 <FormValidationMessage>
                     Description is required
                 </FormValidationMessage>
+                <FormLabel>Points</FormLabel>
+                <FormInput onChangeText={
+                    text => this.formUpdate({points: text})
+                }/>
+                <FormValidationMessage>
+                    Points is required
+                </FormValidationMessage>
 
                 <CheckBox title='The answer is true'
                           onPress={() => this.formUpdate
