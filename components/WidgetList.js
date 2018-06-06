@@ -66,10 +66,10 @@ class WidgetList extends Component {
                                   .navigate("AssignmentWidget", {widgetId: widget.id, lessonId: lid})
                           if(widget.widgetType === "Exam")
                               this.props.navigation
-                                  .navigate("QuestionList", {widgetId: widget.id})
+                                  .navigate("QuestionList", {widgetId: widget.id, lessonId: lid})
                       }}
                       key={index}
-                      subtitle={widget.description}
+                      subtitle={widget.widgetType}
                       title={widget.title}/>))}
       {/*{this.state.widgets.map(*/}
         {/*(widget, index) => (*/}

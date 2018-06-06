@@ -1,7 +1,13 @@
 import React, {Component} from 'react'
-import {View, Alert,Picker,Button} from 'react-native'
-import {Text, ListItem} from 'react-native-elements'
-import QuestionTypePicker from '../elements/QuestionTypePicker'
+import {View, TextInput,Alert,Picker,Button} from 'react-native'
+import {Text,ListItem} from 'react-native-elements'
+
+import {FormLabel, FormInput, FormValidationMessage}
+    from 'react-native-elements'
+
+const EXAM_API_URL = 'http://localhost:8080/api/lesson/LID/exam';
+
+let lid=0;
 
 class QuestionList extends Component {
   static navigationOptions = {title: 'Questions'}
@@ -10,20 +16,28 @@ class QuestionList extends Component {
     this.state = {
       questions: [],
       examId: 1,
-        questionType  : 'MultipleChoice'
+        questionType  : 'MultipleChoice',
+            title: '',
+            description: '',
+            points: 0,
+            widgetType: 'Exam'
+
     }
 
     this.addQuestion = this.addQuestion.bind(this);
+      this.addExam = this.addExam.bind(this);
 
 
   }
-  // componentDidMount() {
-  //   const {navigation} = this.props;
-  //   const examId = navigation.getParam("examId")
-  //   fetch("http://localhost:8080/api/exam/"+examId+"/question")
-  //     .then(response => (response.json()))
-  //     .then(questions => this.setState({questions}))
-  // }
+  componentDidMount() {
+    const {navigation} = this.props;
+      lid = navigation.getParam("lessonId")
+
+    // const examId = navigation.getParam("examId")
+    // fetch("http://localhost:8080/api/exam/"+examId+"/question")
+    //   .then(response => (response.json()))
+    //   .then(questions => this.setState({questions}))
+  }
 
 
     addQuestion(newQuestionType) {
@@ -33,9 +47,73 @@ class QuestionList extends Component {
     }
 
 
+    addExam(){
+        var DYNAMIC_URL = EXAM_API_URL.replace('LID',lid)
+        console.log(DYNAMIC_URL);
+        return fetch(DYNAMIC_URL,{
+            body: JSON.stringify(this.state),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST'
+        }).then(function (response) {
+            //return response.json();
+            console.log("done");
+        })
+    }
+
+    updateForm(newState) {
+        this.setState(newState)
+    }
+
+
   render() {
     return(
       <View style={{padding: 15}}>
+
+          <FormLabel>Title</FormLabel>
+          <FormInput onChangeText={
+              text => this.updateForm({title: text})
+          }/>
+          <FormValidationMessage>
+              Title is required
+          </FormValidationMessage>
+
+          <FormLabel>Description</FormLabel>
+          <FormInput onChangeText={
+              text => this.updateForm({description: text})
+          }/>
+          <FormValidationMessage>
+              Description is required
+          </FormValidationMessage>
+
+          <FormLabel>Points</FormLabel>
+          <FormInput onChangeText={
+              text => this.updateForm({points: text})
+          }/>
+          <FormValidationMessage>
+              Points is required
+          </FormValidationMessage>
+
+          <Button	backgroundColor="green"
+                     color="white"
+                     title="Save"
+                     onPress={() => this.addExam()}/>
+          <Button	backgroundColor="red"
+                     color="white"
+                     title="Cancel"
+                     onPress={() => this.props.navigation
+                         .navigate("WidgetList", {lessonId: lid})}/>
+
+          <Text h3>Preview</Text>
+          <Text><Text h2>{this.state.title}</Text><Text h2>{this.state.points}Pnts</Text></Text>
+          <Text>{this.state.description}</Text>
+          <TextInput
+              multiline={true}
+              numberOfLines={4}
+              editable={true}
+              value="Student enters answer here"/>
+
 
           <Picker
               selectedValue={this.state.questionType}

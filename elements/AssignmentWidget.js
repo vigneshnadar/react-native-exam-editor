@@ -46,7 +46,7 @@ class AssignmentWidget extends React.Component {
             method: 'POST'
         }).then(function (response) {
             //return response.json();
-            console.log("done");
+            console.log("assignment done");
         })
     }
 
@@ -88,7 +88,9 @@ class AssignmentWidget extends React.Component {
                            onPress={() => this.addAssignment()}/>
                 <Button	backgroundColor="red"
                            color="white"
-                           title="Cancel"/>
+                           title="Cancel"
+                           onPress={() => this.props.navigation
+                               .navigate("WidgetList", {lessonId: lid})}/>
 
                 <Text h3>Preview</Text>
                 <Text><Text h2>{this.state.title}</Text><Text h2>{this.state.points}Pnts</Text></Text>
