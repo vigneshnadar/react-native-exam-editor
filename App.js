@@ -17,7 +17,7 @@ import LessonList from './components/LessonList'
 import WidgetList from './components/WidgetList'
 import QuestionList from './components/QuestionList'
 import EssayQuestionWidget from "./elements/EssayQuestionWidget";
-import AssignmentWidget from "./elements/EssayQuestionWidget";
+import AssignmentWidget from "./elements/AssignmentWidget";
 
 class Home extends React.Component
 {
@@ -107,8 +107,8 @@ const App = createStackNavigator({
     QuestionList,
     TrueFalseQuestionEditor,
     MultipleChoiceQuestionEditor,
-    EssayQuestionWidget,
     AssignmentWidget,
+    EssayQuestionWidget,
     Exam,
     ScreenA,
     ScreenB,

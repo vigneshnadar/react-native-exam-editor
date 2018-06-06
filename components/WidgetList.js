@@ -3,6 +3,8 @@ import {View, Alert, Picker, Button} from 'react-native'
 import {Text, ListItem,ButtonGroup} from 'react-native-elements'
 
 
+
+let lid=0;
 class WidgetList extends Component {
   static navigationOptions = {title: 'Widgets'}
   constructor(props) {
@@ -20,6 +22,7 @@ class WidgetList extends Component {
   componentDidMount() {
     const {navigation} = this.props;
     const lessonId = navigation.getParam("lessonId")
+      lid=lessonId
     fetch("http://localhost:8080/api/lesson/"+lessonId+"/widget")
       .then(response => (response.json()))
       .then(widgets => this.setState({widgets}))
@@ -60,10 +63,10 @@ class WidgetList extends Component {
                       onPress={() => {
                           if(widget.widgetType === "Assignment")
                               this.props.navigation
-                                  .navigate("AssignmentWidget", {widgetId: widget.id, lessonId: navigation.getParam("lessonId")})
+                                  .navigate("AssignmentWidget", {widgetId: widget.id, lessonId: lid})
                           if(widget.widgetType === "Exam")
                               this.props.navigation
-                                  .navigate("Exam", {widgetId: widget.id})
+                                  .navigate("QuestionList", {widgetId: widget.id})
                       }}
                       key={index}
                       subtitle={widget.description}

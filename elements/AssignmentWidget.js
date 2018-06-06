@@ -8,7 +8,7 @@ import {FormLabel, FormInput, FormValidationMessage}
 let lid=0;
 
 
-const LESSON_API_URL = 'http://localhost:8080/api/course/CID/module/MID/lesson';
+const LESSON_API_URL = 'http://localhost:8080/api/lesson/LID/assignment';
 const LESSON_DELETE_API_URL = 'http://localhost:8080/api/lesson/LID';
 
 class AssignmentWidget extends React.Component {
@@ -19,9 +19,10 @@ class AssignmentWidget extends React.Component {
             title: '',
             description: '',
             points: 0,
-            options: ''
-
+            widgetType: 'Assignment'
         }
+
+        this.addAssignment = this.addAssignment.bind(this);
     }
 
 
@@ -35,17 +36,17 @@ class AssignmentWidget extends React.Component {
 
 
     addAssignment(){
-        var DYNAMIC_URL = LESSON_API_URL.replace('CID',courseId)
-        DYNAMIC_URL = DYNAMIC_URL.replace('MID',moduleId)
+        var DYNAMIC_URL = LESSON_API_URL.replace('LID',lid)
         console.log(DYNAMIC_URL);
         return fetch(DYNAMIC_URL,{
-            body: JSON.stringify(lesson),
+            body: JSON.stringify(this.state),
             headers: {
                 'Content-Type': 'application/json'
             },
             method: 'POST'
         }).then(function (response) {
-            return response.json();
+            //return response.json();
+            console.log("done");
         })
     }
 
@@ -84,8 +85,7 @@ class AssignmentWidget extends React.Component {
                 <Button	backgroundColor="green"
                            color="white"
                            title="Save"
-                           onPress={() => this.addAssignment
-                           (this.state.widgetType)}/>
+                           onPress={() => this.addAssignment()}/>
                 <Button	backgroundColor="red"
                            color="white"
                            title="Cancel"/>
@@ -104,4 +104,4 @@ class AssignmentWidget extends React.Component {
     }
 }
 
-export default EssayQuestionWidget
+export default AssignmentWidget
