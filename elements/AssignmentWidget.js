@@ -4,6 +4,13 @@ import {Text, Button, CheckBox} from 'react-native-elements'
 import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
 
+
+let lid=0;
+
+
+const LESSON_API_URL = 'http://localhost:8080/api/course/CID/module/MID/lesson';
+const LESSON_DELETE_API_URL = 'http://localhost:8080/api/lesson/LID';
+
 class AssignmentWidget extends React.Component {
     static navigationOptions = { title: "Assignment Question"}
     constructor(props) {
@@ -13,8 +20,37 @@ class AssignmentWidget extends React.Component {
             description: '',
             points: 0,
             options: ''
+
         }
     }
+
+
+    componentDidMount() {
+        const {navigation} = this.props;
+        lid = navigation.getParam("lessonId")
+        // fetch("http://localhost:8080/api/lesson/"+lessonId+"/widget")
+        //     .then(response => (response.json()))
+        //     .then(widgets => this.setState({widgets}))
+    }
+
+
+    addAssignment(){
+        var DYNAMIC_URL = LESSON_API_URL.replace('CID',courseId)
+        DYNAMIC_URL = DYNAMIC_URL.replace('MID',moduleId)
+        console.log(DYNAMIC_URL);
+        return fetch(DYNAMIC_URL,{
+            body: JSON.stringify(lesson),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST'
+        }).then(function (response) {
+            return response.json();
+        })
+    }
+
+
+
     updateForm(newState) {
         this.setState(newState)
     }
@@ -47,7 +83,9 @@ class AssignmentWidget extends React.Component {
 
                 <Button	backgroundColor="green"
                            color="white"
-                           title="Save"/>
+                           title="Save"
+                           onPress={() => this.addAssignment
+                           (this.state.widgetType)}/>
                 <Button	backgroundColor="red"
                            color="white"
                            title="Cancel"/>

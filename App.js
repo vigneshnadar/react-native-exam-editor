@@ -109,6 +109,7 @@ const App = createStackNavigator({
     MultipleChoiceQuestionEditor,
     EssayQuestionWidget,
     AssignmentWidget,
+    Exam,
     ScreenA,
     ScreenB,
     ScreenX
