@@ -49,7 +49,7 @@ class Home extends React.Component
 
 
 
-                <TrueFalseQuestionEditor/>
+
                 <QuestionTypeButtonGroupChooser/>
                 <QuestionTypePicker/>
                 <View style={{padding: 20}}>

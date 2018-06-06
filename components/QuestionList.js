@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, TextInput,Alert,Picker,Button} from 'react-native'
+import {View, TextInput,Alert,Picker,Button,ScrollView} from 'react-native'
 import {Text,ListItem} from 'react-native-elements'
 
 import {FormLabel, FormInput, FormValidationMessage}
@@ -8,6 +8,7 @@ import {FormLabel, FormInput, FormValidationMessage}
 const EXAM_API_URL = 'http://localhost:8080/api/lesson/LID/exam';
 
 let lid=0;
+let examId=0;
 
 class QuestionList extends Component {
   static navigationOptions = {title: 'Questions'}
@@ -32,11 +33,12 @@ class QuestionList extends Component {
   componentDidMount() {
     const {navigation} = this.props;
       lid = navigation.getParam("lessonId")
+      examId = navigation.getParam("widgetId")
 
     // const examId = navigation.getParam("examId")
-    // fetch("http://localhost:8080/api/exam/"+examId+"/question")
-    //   .then(response => (response.json()))
-    //   .then(questions => this.setState({questions}))
+    fetch("http://localhost:8080/api/exam/"+examId+"/question")
+      .then(response => (response.json()))
+      .then(questions => this.setState({questions}))
   }
 
 
@@ -69,7 +71,7 @@ class QuestionList extends Component {
 
   render() {
     return(
-      <View style={{padding: 15}}>
+      <ScrollView style={{padding: 15}}>
 
           <FormLabel>Title</FormLabel>
           <FormInput onChangeText={
@@ -105,14 +107,14 @@ class QuestionList extends Component {
                      onPress={() => this.props.navigation
                          .navigate("WidgetList", {lessonId: lid})}/>
 
-          <Text h3>Preview</Text>
-          <Text><Text h2>{this.state.title}</Text><Text h2>{this.state.points}Pnts</Text></Text>
-          <Text>{this.state.description}</Text>
-          <TextInput
-              multiline={true}
-              numberOfLines={4}
-              editable={true}
-              value="Student enters answer here"/>
+          {/*<Text h3>Preview</Text>*/}
+          {/*<Text><Text h2>{this.state.title}</Text><Text h2>{this.state.points}Pnts</Text></Text>*/}
+          {/*<Text>{this.state.description}</Text>*/}
+          {/*<TextInput*/}
+              {/*multiline={true}*/}
+              {/*numberOfLines={4}*/}
+              {/*editable={true}*/}
+              {/*value="Student enters answer here"/>*/}
 
 
           <Picker
@@ -135,7 +137,7 @@ class QuestionList extends Component {
             onPress={() => {
               if(question.type === "TrueFalse")
                 this.props.navigation
-                  .navigate("TrueFalseQuestionEditor", {questionId: question.id})
+                  .navigate("TrueFalseQuestionEditor", {examId: examId,questionId: question.id})
               if(question.type === "MultipleChoice")
                 this.props.navigation
                   .navigate("MultipleChoiceQuestionEditor", {questionId: question.id})
@@ -146,7 +148,7 @@ class QuestionList extends Component {
             key={index}
             subtitle={question.description}
             title={question.title}/>))}
-      </View>
+      </ScrollView>
     )
   }
 }
