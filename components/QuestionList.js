@@ -4,6 +4,7 @@ import {Text,ListItem,Icon, Button} from 'react-native-elements'
 
 import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
+import FillInTheBlanksQuestionWidget from "../elements/FillInTheBlanksQuestionWidget";
 
 const EXAM_API_URL = 'http://localhost:8080/api/lesson/LID/exam';
 
@@ -67,6 +68,10 @@ class QuestionList extends Component {
         if(newQuestionType === "Essay")
             this.props.navigation
                 .navigate("EssayQuestionWidget", {examId: examId,questionId: 0,lessonId:lid})
+        if(newQuestionType === "Fill in the blanks")
+            this.props.navigation
+                .navigate("FillInTheBlanksQuestionWidget", {examId: examId,questionId: 0,lessonId:lid})
+
 
         // this.setState({ questions: [ ...this.state.questions, {
         //   type: newQuestionType,title: 'new question',description: newQuestionType
@@ -162,6 +167,10 @@ class QuestionList extends Component {
                 if(question.type === "Essay")
                     this.props.navigation
                         .navigate("EssayQuestionWidget", {examId: examId,questionId: question.id})
+                if(question.type  === "Fill in the blanks")
+                    this.props.navigation
+                        .navigate("FillInTheBlanksQuestionWidget", {examId: examId,questionId: 0,lessonId:lid})
+
             }}
             key={index}
             subtitle={question.description}
