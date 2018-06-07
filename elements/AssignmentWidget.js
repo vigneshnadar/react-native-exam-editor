@@ -6,6 +6,7 @@ import {FormLabel, FormInput, FormValidationMessage}
 
 
 let lid=0;
+let widId=0;
 
 
 const LESSON_API_URL = 'http://localhost:8080/api/lesson/LID/assignment';
@@ -29,9 +30,15 @@ class AssignmentWidget extends React.Component {
     componentDidMount() {
         const {navigation} = this.props;
         lid = navigation.getParam("lessonId")
-        // fetch("http://localhost:8080/api/lesson/"+lessonId+"/widget")
-        //     .then(response => (response.json()))
-        //     .then(widgets => this.setState({widgets}))
+        widId= navigation.getParam("widgetId")
+
+
+        fetch("http://localhost:8080/api/assignment/"+widId)
+            .then(response => (response.json()))
+            .then(widgets => this.setState({title: widgets.title,
+            description: widgets.description,
+            points: widgets.points,
+            widgetType: widgets.widgetType}))
     }
 
 
@@ -59,7 +66,7 @@ class AssignmentWidget extends React.Component {
         return(
             <View>
                 <FormLabel>Title</FormLabel>
-                <FormInput onChangeText={
+                <FormInput value={this.state.title} onChangeText={
                     text => this.updateForm({title: text})
                 }/>
                 <FormValidationMessage>
@@ -67,7 +74,7 @@ class AssignmentWidget extends React.Component {
                 </FormValidationMessage>
 
                 <FormLabel>Description</FormLabel>
-                <FormInput onChangeText={
+                <FormInput value={this.state.description} onChangeText={
                     text => this.updateForm({description: text})
                 }/>
                 <FormValidationMessage>
@@ -75,7 +82,7 @@ class AssignmentWidget extends React.Component {
                 </FormValidationMessage>
 
                 <FormLabel>Points</FormLabel>
-                <FormInput onChangeText={
+                <FormInput value={this.state.points + ""} onChangeText={
                     text => this.updateForm({points: text})
                 }/>
                 <FormValidationMessage>
@@ -92,10 +99,10 @@ class AssignmentWidget extends React.Component {
                            onPress={() => this.props.navigation
                                .navigate("WidgetList", {lessonId: lid})}/>
 
-                <Text h3>Preview</Text>
-                <Text><Text h2>{this.state.title}</Text><Text h2>{this.state.points}Pnts</Text></Text>
+                <Text h2>Preview</Text>
+                <Text><Text h4>{this.state.title+"     "}</Text><Text h4 style={{textAlign:'right',marginLeft:20}}>{this.state.points}Pts</Text></Text>
                 <Text>{this.state.description}</Text>
-                <TextInput
+                <FormInput
                     multiline={true}
                     numberOfLines={4}
                     editable={true}

@@ -25,6 +25,8 @@ class WidgetList extends Component {
       this.findAllWidgets = this.findAllWidgets.bind(this)
       this.deleteWidget = this.deleteWidget.bind(this)
       this.addWidget = this.addWidget.bind(this)
+      this.renderListOfWidgets = this.renderListOfWidgets.bind(this)
+
   }
   componentDidMount() {
     const {navigation} = this.props;
@@ -38,10 +40,13 @@ class WidgetList extends Component {
   }
 
 
+
+
   findAllWidgets(){
       fetch("http://localhost:8080/api/lesson/"+lid+"/widget")
           .then(response => (response.json()))
           .then(widgets => this.setState({widgets}))
+
   }
 
     selectWidgetType = (newWidgetTypeIndex) => {
@@ -68,8 +73,45 @@ class WidgetList extends Component {
                 method: 'DELETE'
             }).then(function (response) {
             //return response;
-             this.findAllWidgets()
+             console.log("delete done")
         })
+    }
+
+
+    renderListOfWidgets() {
+        let wid = this.state.widgets.map(
+            (widget, index) => (
+                <ListItem
+                    onPress={() => {
+                        if(widget.widgetType === "Assignment")
+                            this.props.navigation
+                                .navigate("AssignmentWidget", {widgetId: widget.id, lessonId: lid})
+                        if(widget.widgetType === "Exam")
+                            this.props.navigation
+                                .navigate("QuestionList", {widgetId: widget.id, lessonId: lid})
+                    }}
+                    key={index}
+                    subtitle={widget.widgetType}
+                    title={widget.title}
+
+                    leftIcon={<Icon
+                        name='times-circle'
+                        type='font-awesome'
+                        color='#517fa4'
+                        size={30}
+                        onPress={()=> this.deleteWidget(widget.id,widget.widgetType)}
+                    />}
+                    rightIcon={<Icon
+                        name='chevron-right'
+                        type='font-awesome'
+                        color='#517fa4'
+                        size={30}
+                    />}
+
+                />))
+
+
+        return wid;
     }
 
 
@@ -90,28 +132,7 @@ class WidgetList extends Component {
                   onPress={() => this.addWidget
                   (this.state.widgetType)}/>
 
-          {this.state.widgets.map(
-              (widget, index) => (
-                  <ListItem
-                      onPress={() => {
-                          if(widget.widgetType === "Assignment")
-                              this.props.navigation
-                                  .navigate("AssignmentWidget", {widgetId: widget.id, lessonId: lid})
-                          if(widget.widgetType === "Exam")
-                              this.props.navigation
-                                  .navigate("QuestionList", {widgetId: widget.id, lessonId: lid})
-                      }}
-                      key={index}
-                      subtitle={widget.widgetType}
-                      title={widget.title}
-                      rightIcon={<Icon
-                          name='times-circle'
-                          type='font-awesome'
-                          color='#fffff'
-                          size={30}
-                          onPress={()=> this.deleteWidget(widget.id,widget.widgetType)}
-                      />}
-                  />))}
+          {this.renderListOfWidgets()}
 
 
 
