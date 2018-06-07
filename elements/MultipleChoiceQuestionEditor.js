@@ -22,7 +22,8 @@ class MultipleChoiceQuestionEditor extends React.Component {
           options: '',
           choices: [],
           correctChoice:'',
-          isTrue: true
+          isTrue: true,
+          instructions:'MultipleChoice'
       }
 
       this.updateForm = this.updateForm.bind(this);

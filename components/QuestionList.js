@@ -19,7 +19,7 @@ class QuestionList extends Component {
     this.state = {
       questions: [],
       examId: 1,
-        questionType  : 'MultipleChoice',
+        instructions  : 'MultipleChoice',
             title: '',
             description: '',
             points: 0,
@@ -158,22 +158,22 @@ class QuestionList extends Component {
         (question, index) => (
           <ListItem
             onPress={() => {
-              if(question.type === "TrueFalse")
+              if(question.instructions === "TrueFalse")
                 this.props.navigation
                   .navigate("TrueFalseQuestionEditor", {examId: examId,questionId: question.id})
-              if(question.type === "MultipleChoice")
+              if(question.instructions === "MultipleChoice")
                 this.props.navigation
                   .navigate("MultipleChoiceQuestionEditor", {examId: examId,questionId: question.id})
-                if(question.type === "Essay")
+                if(question.instructions === "Essay")
                     this.props.navigation
                         .navigate("EssayQuestionWidget", {examId: examId,questionId: question.id})
-                if(question.type  === "Fill in the blanks")
+                if(question.instructions  === "Fill in the blanks")
                     this.props.navigation
                         .navigate("FillInTheBlanksQuestionWidget", {examId: examId,questionId: 0,lessonId:lid})
 
             }}
             key={index}
-            subtitle={question.description}
+            subtitle={question.instructions}
             title={question.title}
           />))}
       </ScrollView>

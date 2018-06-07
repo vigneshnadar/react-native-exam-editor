@@ -13,7 +13,8 @@ export default class TrueFalseQuestionEditor extends Component {
         super(props)
         this.state = {title: '', description: '',
             points: 0,
-        isTrue: true}
+        isTrue: true,
+            instructions:'TrueFalse'}
         this.formUpdate = this.formUpdate.bind(this)
         this.saveQuestion = this.saveQuestion.bind(this)
     }

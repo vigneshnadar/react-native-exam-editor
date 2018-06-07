@@ -5,19 +5,20 @@ import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
 
 
-const QUESTION_API_URL = 'http://localhost:8080/api/exam/EID/blank';
+const QUESTION_API_URL = 'http://localhost:8080/api/exam/EID/blanks';
 let examid=0;
 let lid=0;
 
 class FillInTheBlanksQuestionWidget extends React.Component {
-    static navigationOptions = { title: "Essay Question"}
+    static navigationOptions = { title: "Fill in the Blanks"}
     constructor(props) {
         super(props)
         this.state = {
             title: '',
             description: '',
             variables: '',
-            points: 0
+            points: 0,
+            instructions:'Fill in the blanks'
         }
 
         this.updateForm = this.updateForm.bind(this)
@@ -48,7 +49,7 @@ class FillInTheBlanksQuestionWidget extends React.Component {
         let wid = str.map(
             (s, index) => {
                 var cur = s.split("[")
-                return <Text><Text>{cur[0]}</Text><FormInput placeholder="fill blank" style={{width:30,backgroundColor: '#ffffff'}}/></Text>
+                return <Text key={index}><Text>{cur[0]}</Text><FormInput placeholder="fill blank" style={{width:30,backgroundColor: '#ffffff'}}/></Text>
             })
 
         return wid;

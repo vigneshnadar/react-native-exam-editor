@@ -10,13 +10,14 @@ let examid=0;
 let lid=0;
 
 class EssayQuestionWidget extends React.Component {
-    static navigationOptions = { title: "Essay Question"}
+    static navigationOptions = { title: "Essay"}
     constructor(props) {
         super(props)
         this.state = {
             title: '',
             description: '',
-            points: 0
+            points: 0,
+            instructions:'Essay'
         }
 
         this.updateForm = this.updateForm.bind(this)
