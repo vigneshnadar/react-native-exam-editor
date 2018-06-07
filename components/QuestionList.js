@@ -140,10 +140,10 @@ class QuestionList extends Component {
                   .navigate("TrueFalseQuestionEditor", {examId: examId,questionId: question.id})
               if(question.type === "MultipleChoice")
                 this.props.navigation
-                  .navigate("MultipleChoiceQuestionEditor", {questionId: question.id})
+                  .navigate("MultipleChoiceQuestionEditor", {examId: examId,questionId: question.id})
                 if(question.type === "Essay")
                     this.props.navigation
-                        .navigate("EssayQuestionWidget", {questionId: question.id})
+                        .navigate("EssayQuestionWidget", {examId: examId,questionId: question.id})
             }}
             key={index}
             subtitle={question.description}
