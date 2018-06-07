@@ -55,9 +55,19 @@ class WidgetList extends Component {
 
 
     addWidget(newWidgetType) {
-        this.setState({ widgets: [ ...this.state.widgets, {
-                widgetType: newWidgetType,title: 'new widget',description: newWidgetType
-            }]})
+
+
+        if(newWidgetType === "Assignment")
+            this.props.navigation
+                .navigate("AssignmentWidget", {widgetId: 0, lessonId: lid})
+        if(newWidgetType === "Exam")
+            this.props.navigation
+                .navigate("QuestionList", {widgetId: 0, lessonId: lid})
+
+
+        // this.setState({ widgets: [ ...this.state.widgets, {
+        //         widgetType: newWidgetType,title: 'new widget',description: newWidgetType
+        //     }]})
     }
 
 
