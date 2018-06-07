@@ -8,6 +8,7 @@ import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
 
 let examid=0;
 let lid=0;
+let qid=0;
 
 const QUESTION_API_URL = 'http://localhost:8080/api/exam/EID/choice';
 
@@ -37,9 +38,18 @@ class MultipleChoiceQuestionEditor extends React.Component {
         const {navigation} = this.props;
         examid = navigation.getParam("examId")
         lid = navigation.getParam("lessonId")
-        // fetch("http://localhost:8080/api/lesson/"+lessonId+"/widget")
-        //     .then(response => (response.json()))
-        //     .then(widgets => this.setState({widgets}))
+        qid = navigation.getParam("questionId")
+
+
+        fetch("http://localhost:8080/api/choice/"+qid)
+            .then(response => (response.json()))
+            .then(widgets => this.setState({title: widgets.title,
+                description: widgets.description,
+                points: widgets.points,
+                choices: widgets.choices,
+                instructions: widgets.instructions,
+            isTrue:widgets.isTrue,
+            correctChoice: widgets.correctChoice}))
     }
 
   updateForm(newState) {
@@ -79,7 +89,7 @@ class MultipleChoiceQuestionEditor extends React.Component {
     return(
       <ScrollView>
         <FormLabel>Title</FormLabel>
-        <FormInput onChangeText={
+        <FormInput value={this.state.title} onChangeText={
           text => this.updateForm({title: text})
         }/>
         <FormValidationMessage>
@@ -87,7 +97,7 @@ class MultipleChoiceQuestionEditor extends React.Component {
         </FormValidationMessage>
 
         <FormLabel>Description</FormLabel>
-        <FormInput onChangeText={
+        <FormInput value={this.state.description} onChangeText={
           text => this.updateForm({description: text})
         }/>
         <FormValidationMessage>

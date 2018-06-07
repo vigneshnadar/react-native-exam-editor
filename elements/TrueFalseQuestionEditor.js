@@ -6,12 +6,16 @@ import { Text,Button,FormLabel,FormInput,FormValidationMessage,CheckBox } from '
 const QUESTION_API_URL = 'http://localhost:8080/api/exam/EID/truefalse';
 
 let examid=0;
+let lid=0;
+let qid=0;
 export default class TrueFalseQuestionEditor extends Component {
 
 
     constructor(props) {
         super(props)
-        this.state = {title: '', description: '',
+
+        this.state = {title: '',
+            description: '',
             points: 0,
         isTrue: true,
             instructions:'TrueFalse'}
@@ -23,10 +27,23 @@ export default class TrueFalseQuestionEditor extends Component {
     componentDidMount() {
         const {navigation} = this.props;
         examid = navigation.getParam("examId")
-        // fetch("http://localhost:8080/api/lesson/"+lessonId+"/widget")
-        //     .then(response => (response.json()))
-        //     .then(widgets => this.setState({widgets}))
-    }
+        lid = navigation.getParam("lessonId")
+        qid = navigation.getParam("questionId")
+
+        if (qid != 0) {
+            fetch("http://localhost:8080/api/truefalse/" + qid)
+                .then(response => (response.json()))
+                .then(widgets => this.setState({
+                    title: widgets.title,
+                    description: widgets.description,
+                    points: widgets.points,
+                    instructions: widgets.instructions,
+                    isTrue: widgets.isTrue
+                }))
+        }
+
+        }
+
 
     formUpdate(update) {
         this.setState(update)
@@ -34,6 +51,7 @@ export default class TrueFalseQuestionEditor extends Component {
 
 
     saveQuestion(){
+        //console.log(this.state.)
         var DYNAMIC_URL = QUESTION_API_URL.replace('EID',examid)
         console.log(DYNAMIC_URL);
         return fetch(DYNAMIC_URL,{
@@ -54,20 +72,20 @@ export default class TrueFalseQuestionEditor extends Component {
         return (
             <View>
             <FormLabel>Title</FormLabel>
-            <FormInput onChangeText={
+            <FormInput value={this.state.title} onChangeText={
                 text => this.formUpdate({title: text}) }/>
         <FormValidationMessage>
             Title is required
         </FormValidationMessage>
 
                 <FormLabel>Description</FormLabel>
-                <FormInput onChangeText={
+                <FormInput value={this.state.description} onChangeText={
                     text => this.formUpdate({description: text}) }/>
                 <FormValidationMessage>
                     Description is required
                 </FormValidationMessage>
                 <FormLabel>Points</FormLabel>
-                <FormInput onChangeText={
+                <FormInput value={this.state.points+""} onChangeText={
                     text => this.formUpdate({points: text})
                 }/>
                 <FormValidationMessage>
