@@ -33,13 +33,18 @@ class EssayQuestionWidget extends React.Component {
         lid = navigation.getParam("lessonId")
         qid = navigation.getParam("questionId")
 
+if(qid!=0) {
 
-        fetch("http://localhost:8080/api/essay/"+qid)
-            .then(response => (response.json()))
-            .then(widgets => this.setState({title: widgets.title,
-                description: widgets.description,
-                points: widgets.points,
-                instructions: widgets.instructions}))
+
+    fetch("http://localhost:8080/api/essay/" + qid)
+        .then(response => (response.json()))
+        .then(widgets => this.setState({
+            title: widgets.title,
+            description: widgets.description,
+            points: widgets.points,
+            instructions: widgets.instructions
+        }))
+}
     }
 
     updateForm(newState) {
@@ -101,8 +106,9 @@ class EssayQuestionWidget extends React.Component {
                                .navigate("QuestionList", {widgetId:examid,lessonId: lid})}/>
 
                 <Text h3>Preview</Text>
-               <Text><Text h2>{this.state.title}</Text><Text h2>{this.state.points}Pnts</Text></Text>
+               <Text><Text h2>{this.state.title+"      "}</Text><Text h2>{this.state.points}Pts</Text></Text>
                 <Text>{this.state.description}</Text>
+                <Text h4>Essay answer here</Text>
                 <FormInput
                 multiline={true}
                 numberOfLines={4}

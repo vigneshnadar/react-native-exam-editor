@@ -103,10 +103,16 @@ export default class TrueFalseQuestionEditor extends Component {
                            onPress={() => this.saveQuestion()}/>
                 <Button	backgroundColor="red"
                            color="white"
-                           title="Cancel"/>
+                           title="Cancel"
+                           onPress={() => this.props.navigation
+                               .navigate("QuestionList", {widgetId:examid,lessonId: lid})}/>
 
                 <Text h3>Preview</Text>
-                <Text>{this.state.description} {this.state.title}</Text>
+                <Text><Text h2>{this.state.title+"      "}</Text><Text h2>{this.state.points}Pts</Text></Text>
+                <Text>{this.state.description}</Text>
+                <Text h4>Mark as true or false</Text>
+                <CheckBox title='The answer is true'
+                          checked={false}/>
             </View>
         )
     }

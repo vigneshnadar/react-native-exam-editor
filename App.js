@@ -35,29 +35,10 @@ class Home extends React.Component
             <ScrollView>
                 <StatusBar hidden={true} barStyle="light-content"/>
                 <FixedHeader/>
-                <Button title="Go to Screen A"
-                        onPress={() => this.props.navigation
-                            .navigate('ScreenA')}/>
-                <Button title="Go to Screen B"
-                        onPress={() => this.props.navigation
-                            .navigate('ScreenB')}/>
-                <Button title="Go to Screen X"
-                        onPress={() => this.props.navigation
-                            .navigate('ScreenX',{'parameter': 'some value'})}/>
+
                 <Button title="Go to Course List"
                         onPress={() => this.props.navigation
                             .navigate('CourseList')}/>
-
-
-
-
-                <QuestionTypeButtonGroupChooser/>
-                <QuestionTypePicker/>
-                <View style={{padding: 20}}>
-                    <TextHeadings/>
-                    <Icons/>
-                    <Exam/>
-                </View>
             </ScrollView>
         )
     }

@@ -35,14 +35,17 @@ class FillInTheBlanksQuestionWidget extends React.Component {
 
         qid = navigation.getParam("questionId")
 
-
-        fetch("http://localhost:8080/api/blanks/"+qid)
-            .then(response => (response.json()))
-            .then(widgets => this.setState({title: widgets.title,
-                description: widgets.description,
-                points: widgets.points,
-                variables: widgets.variables,
-                instructions: widgets.instructions}))
+if(qid!=0) {
+    fetch("http://localhost:8080/api/blanks/" + qid)
+        .then(response => (response.json()))
+        .then(widgets => this.setState({
+            title: widgets.title,
+            description: widgets.description,
+            points: widgets.points,
+            variables: widgets.variables,
+            instructions: widgets.instructions
+        }))
+}
     }
 
     updateForm(newState) {
