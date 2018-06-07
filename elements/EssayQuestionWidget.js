@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, TextInput} from 'react-native'
+import {View, TextInput,ScrollView} from 'react-native'
 import {Text, Button, CheckBox} from 'react-native-elements'
 import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
@@ -70,7 +70,7 @@ if(qid!=0) {
 
     render() {
         return(
-            <View>
+            <ScrollView>
                 <FormLabel>Title</FormLabel>
                 <FormInput value={this.state.title} onChangeText={
                     text => this.updateForm({title: text})
@@ -115,7 +115,14 @@ if(qid!=0) {
                 editable={true}
                 value="Student enters answer here"/>
 
-            </View>
+                <Button	backgroundColor="blue"
+                           color="white"
+                           title="Submit"/>
+                <Button	backgroundColor="red"
+                           color="white"
+                           title="Cancel"/>
+
+            </ScrollView>
         )
     }
 }

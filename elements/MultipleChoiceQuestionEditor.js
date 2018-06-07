@@ -179,7 +179,12 @@ class MultipleChoiceQuestionEditor extends React.Component {
 
                   ))}
           </RadioGroup>
-
+          <Button	backgroundColor="blue"
+                     color="white"
+                     title="Submit"/>
+          <Button	backgroundColor="red"
+                     color="white"
+                     title="Cancel"/>
       </ScrollView>
     )
   }

@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react'
-import { View } from 'react-native'
+import { View ,ScrollView} from 'react-native'
 import { Text,Button,FormLabel,FormInput,FormValidationMessage,CheckBox } from 'react-native-elements'
 
 const QUESTION_API_URL = 'http://localhost:8080/api/exam/EID/truefalse';
@@ -70,7 +70,7 @@ export default class TrueFalseQuestionEditor extends Component {
 
     render(){
         return (
-            <View>
+            <ScrollView>
             <FormLabel>Title</FormLabel>
             <FormInput value={this.state.title} onChangeText={
                 text => this.formUpdate({title: text}) }/>
@@ -113,7 +113,13 @@ export default class TrueFalseQuestionEditor extends Component {
                 <Text h4>Mark as true or false</Text>
                 <CheckBox title='The answer is true'
                           checked={false}/>
-            </View>
+                <Button	backgroundColor="blue"
+                           color="white"
+                           title="Submit"/>
+                <Button	backgroundColor="red"
+                           color="white"
+                           title="Cancel"/>
+            </ScrollView>
         )
     }
 }

@@ -135,6 +135,12 @@ if(qid!=0) {
                 <Text><Text h2>{this.state.title}</Text><Text h2>{this.state.points}Pnts</Text></Text>
                 <Text>{this.state.description}</Text>
                 <Text>{this.renderBlanks()}</Text>
+                <Button	backgroundColor="blue"
+                           color="white"
+                           title="Submit"/>
+                <Button	backgroundColor="red"
+                           color="white"
+                           title="Cancel"/>
 
             </ScrollView>
         )
