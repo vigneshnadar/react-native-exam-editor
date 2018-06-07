@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import {View, TextInput,Alert,Picker,Button,ScrollView} from 'react-native'
-import {Text,ListItem} from 'react-native-elements'
+import {Text,ListItem,Icon} from 'react-native-elements'
 
 import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
 
 const EXAM_API_URL = 'http://localhost:8080/api/lesson/LID/exam';
+
 
 let lid=0;
 let examId=0;
@@ -28,8 +29,9 @@ class QuestionList extends Component {
     this.addQuestion = this.addQuestion.bind(this);
       this.addExam = this.addExam.bind(this);
 
-
   }
+
+
   componentDidMount() {
     const {navigation} = this.props;
       lid = navigation.getParam("lessonId")
@@ -47,6 +49,9 @@ class QuestionList extends Component {
           type: newQuestionType,title: 'new question',description: newQuestionType
             }]})
     }
+
+
+
 
 
     addExam(){
@@ -147,7 +152,8 @@ class QuestionList extends Component {
             }}
             key={index}
             subtitle={question.description}
-            title={question.title}/>))}
+            title={question.title}
+          />))}
       </ScrollView>
     )
   }
