@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, TextInput} from 'react-native'
+import {View, TextInput, ScrollView} from 'react-native'
 import {Text, Button, CheckBox} from 'react-native-elements'
 import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
@@ -64,7 +64,7 @@ class AssignmentWidget extends React.Component {
     }
     render() {
         return(
-            <View>
+            <ScrollView>
                 <FormLabel>Title</FormLabel>
                 <FormInput value={this.state.title} onChangeText={
                     text => this.updateForm({title: text})
@@ -102,13 +102,32 @@ class AssignmentWidget extends React.Component {
                 <Text h2>Preview</Text>
                 <Text><Text h4>{this.state.title+"     "}</Text><Text h4 style={{textAlign:'right',marginLeft:20}}>{this.state.points}Pts</Text></Text>
                 <Text>{this.state.description}</Text>
+                <Text h3>Essay Answer</Text>
                 <FormInput
                     multiline={true}
                     numberOfLines={4}
                     editable={true}
                     value="Student enters answer here"/>
+                <Text h3>Upload a file</Text>
+                <FormInput
+                    multiline={true}
+                    numberOfLines={4}
+                    editable={true}
+                    value="File Upload"/>
+                <Text h3>Submit a link</Text>s
+                <FormInput
+                    multiline={true}
+                    numberOfLines={4}
+                    editable={true}
+                    value="Link"/>
+                <Button	backgroundColor="blue"
+                           color="white"
+                           title="Submit"/>
+                <Button	backgroundColor="red"
+                           color="white"
+                           title="Cancel"/>
 
-            </View>
+            </ScrollView>
         )
     }
 }
