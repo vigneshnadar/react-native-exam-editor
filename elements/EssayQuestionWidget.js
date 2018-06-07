@@ -7,6 +7,7 @@ import {FormLabel, FormInput, FormValidationMessage}
 
 const QUESTION_API_URL = 'http://localhost:8080/api/exam/EID/essay';
 let examid=0;
+let lid=0;
 
 class EssayQuestionWidget extends React.Component {
     static navigationOptions = { title: "Essay Question"}
@@ -27,6 +28,7 @@ class EssayQuestionWidget extends React.Component {
     componentDidMount() {
         const {navigation} = this.props;
         examid = navigation.getParam("examId")
+        lid = navigation.getParam("lessonId")
         // fetch("http://localhost:8080/api/lesson/"+lessonId+"/widget")
         //     .then(response => (response.json()))
         //     .then(widgets => this.setState({widgets}))
@@ -88,12 +90,12 @@ class EssayQuestionWidget extends React.Component {
                            color="white"
                            title="Cancel"
                            onPress={() => this.props.navigation
-                               .navigate("WidgetList", {lessonId: lid})}/>
+                               .navigate("QuestionList", {widgetId:examid,lessonId: lid})}/>
 
                 <Text h3>Preview</Text>
                <Text><Text h2>{this.state.title}</Text><Text h2>{this.state.points}Pnts</Text></Text>
                 <Text>{this.state.description}</Text>
-                <TextInput
+                <FormInput
                 multiline={true}
                 numberOfLines={4}
                 editable={true}

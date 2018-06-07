@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {View, TextInput,Alert,Picker,Button,ScrollView} from 'react-native'
-import {Text,ListItem,Icon} from 'react-native-elements'
+import {View, TextInput,Alert,Picker,ScrollView} from 'react-native'
+import {Text,ListItem,Icon, Button} from 'react-native-elements'
 
 import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
@@ -37,6 +37,17 @@ class QuestionList extends Component {
       lid = navigation.getParam("lessonId")
       examId = navigation.getParam("widgetId")
 
+
+      widId= navigation.getParam("widgetId")
+
+
+      fetch("http://localhost:8080/api/exam/"+examId)
+          .then(response => (response.json()))
+          .then(widgets => this.setState({title: widgets.title,
+              description: widgets.description,
+              points: widgets.points,
+              widgetType: widgets.widgetType}))
+
     // const examId = navigation.getParam("examId")
     fetch("http://localhost:8080/api/exam/"+examId+"/question")
       .then(response => (response.json()))
@@ -45,9 +56,21 @@ class QuestionList extends Component {
 
 
     addQuestion(newQuestionType) {
-        this.setState({ questions: [ ...this.state.questions, {
-          type: newQuestionType,title: 'new question',description: newQuestionType
-            }]})
+
+
+        if(newQuestionType === "TrueFalse")
+            this.props.navigation
+                .navigate("TrueFalseQuestionEditor", {examId: examId,questionId: 0,lessonId:lid})
+        if(newQuestionType === "MultipleChoice")
+            this.props.navigation
+                .navigate("MultipleChoiceQuestionEditor", {examId: examId,questionId: 0,lessonId:lid})
+        if(newQuestionType === "Essay")
+            this.props.navigation
+                .navigate("EssayQuestionWidget", {examId: examId,questionId: 0,lessonId:lid})
+
+        // this.setState({ questions: [ ...this.state.questions, {
+        //   type: newQuestionType,title: 'new question',description: newQuestionType
+        //     }]})
     }
 
 
@@ -79,7 +102,7 @@ class QuestionList extends Component {
       <ScrollView style={{padding: 15}}>
 
           <FormLabel>Title</FormLabel>
-          <FormInput onChangeText={
+          <FormInput value={this.state.title} onChangeText={
               text => this.updateForm({title: text})
           }/>
           <FormValidationMessage>
@@ -87,7 +110,7 @@ class QuestionList extends Component {
           </FormValidationMessage>
 
           <FormLabel>Description</FormLabel>
-          <FormInput onChangeText={
+          <FormInput value={this.state.description} onChangeText={
               text => this.updateForm({description: text})
           }/>
           <FormValidationMessage>
@@ -95,7 +118,7 @@ class QuestionList extends Component {
           </FormValidationMessage>
 
           <FormLabel>Points</FormLabel>
-          <FormInput onChangeText={
+          <FormInput value={this.state.points+""} onChangeText={
               text => this.updateForm({points: text})
           }/>
           <FormValidationMessage>
@@ -104,23 +127,13 @@ class QuestionList extends Component {
 
           <Button	backgroundColor="green"
                      color="white"
-                     title="Save"
+                     title="Save before adding question"
                      onPress={() => this.addExam()}/>
           <Button	backgroundColor="red"
                      color="white"
                      title="Cancel"
                      onPress={() => this.props.navigation
                          .navigate("WidgetList", {lessonId: lid})}/>
-
-          {/*<Text h3>Preview</Text>*/}
-          {/*<Text><Text h2>{this.state.title}</Text><Text h2>{this.state.points}Pnts</Text></Text>*/}
-          {/*<Text>{this.state.description}</Text>*/}
-          {/*<TextInput*/}
-              {/*multiline={true}*/}
-              {/*numberOfLines={4}*/}
-              {/*editable={true}*/}
-              {/*value="Student enters answer here"/>*/}
-
 
           <Picker
               selectedValue={this.state.questionType}

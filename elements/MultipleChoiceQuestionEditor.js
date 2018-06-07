@@ -1,8 +1,15 @@
 import React from 'react'
-import {View} from 'react-native'
-import {Text, Button, CheckBox} from 'react-native-elements'
+import {View, ScrollView} from 'react-native'
+import {Text, Button, CheckBox, Icon} from 'react-native-elements'
 import {FormLabel, FormInput, FormValidationMessage,ListItem}
   from 'react-native-elements'
+import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
+
+
+let examid=0;
+let lid=0;
+
+const QUESTION_API_URL = 'http://localhost:8080/api/exam/EID/choice';
 
 class MultipleChoiceQuestionEditor extends React.Component {
   static navigationOptions = { title: "Multiple Choice"}
@@ -14,11 +21,25 @@ class MultipleChoiceQuestionEditor extends React.Component {
           points: 0,
           options: '',
           choices: [],
+          correctChoice:'',
+          isTrue: true
       }
 
       this.updateForm = this.updateForm.bind(this);
+      this.onSelect = this.onSelect.bind(this);
       this.addChoice = this.addChoice.bind(this);
+      this.saveQuestion = this.saveQuestion.bind(this)
   }
+
+
+    componentDidMount() {
+        const {navigation} = this.props;
+        examid = navigation.getParam("examId")
+        lid = navigation.getParam("lessonId")
+        // fetch("http://localhost:8080/api/lesson/"+lessonId+"/widget")
+        //     .then(response => (response.json()))
+        //     .then(widgets => this.setState({widgets}))
+    }
 
   updateForm(newState) {
     this.setState(newState)
@@ -26,13 +47,36 @@ class MultipleChoiceQuestionEditor extends React.Component {
 
     addChoice(newChoice) {
         this.setState({ choices: [ ...this.state.choices, {
-            description: newChoice
+            choice: newChoice
             }]})
+    }
+
+
+    saveQuestion(){
+        var DYNAMIC_URL = QUESTION_API_URL.replace('EID',examid)
+        console.log(DYNAMIC_URL);
+        return fetch(DYNAMIC_URL,{
+            body: JSON.stringify(this.state),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST'
+        }).then(function (response) {
+            //return response.json();
+            console.log("essay done");
+        })
+    }
+
+
+    onSelect(index,value){
+      this.setState({
+          correctChoice: value
+      })
     }
 
   render() {
     return(
-      <View>
+      <ScrollView>
         <FormLabel>Title</FormLabel>
         <FormInput onChangeText={
           text => this.updateForm({title: text})
@@ -60,25 +104,42 @@ class MultipleChoiceQuestionEditor extends React.Component {
                   onPress={() => this.addChoice
                   (this.state.options)}/>
 
-          {this.state.choices.map(
-              (choice, index) => (
-                  <ListItem
-                      key={index}
-                      subtitle={choice.description}
-                      title={choice.description}/>))}
+
 
         <Button	backgroundColor="green"
                  color="white"
-                 title="Save"/>
+                 title="Save"
+                   onPress={() => this.saveQuestion()}/>
         <Button	backgroundColor="red"
                  color="white"
-                 title="Cancel"/>
+                 title="Cancel"
+                   onPress={() => this.props.navigation
+                       .navigate("WidgetList", {widgetId:examid,lessonId: lid})}/>
 
-        <Text h3>Preview</Text>
-        <Text h2>{this.state.title}</Text>
+        <Text h1>Preview</Text>
+        <Text h3>{this.state.title}</Text>
         <Text>{this.state.description}</Text>
+          <RadioGroup
+              onSelect = {(index, value) => this.onSelect(index, value)}>
 
-      </View>
+              {this.state.choices.map(
+                  (ch, index) => (
+                      <RadioButton key={index} value={ch.choice}
+                      >
+                          <Text>{ch.choice+"       "}
+                              <Icon
+                                  name='times-circle'
+                                  type='font-awesome'
+                                  color='#517fa4'
+                                  size={20}
+                              />
+                          </Text>
+                      </RadioButton>
+
+                  ))}
+          </RadioGroup>
+
+      </ScrollView>
     )
   }
 }
