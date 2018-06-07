@@ -8,6 +8,7 @@ import {FormLabel, FormInput, FormValidationMessage}
 const QUESTION_API_URL = 'http://localhost:8080/api/exam/EID/blanks';
 let examid=0;
 let lid=0;
+let qid=0;
 
 class FillInTheBlanksQuestionWidget extends React.Component {
     static navigationOptions = { title: "Fill in the Blanks"}
@@ -31,9 +32,17 @@ class FillInTheBlanksQuestionWidget extends React.Component {
         const {navigation} = this.props;
         examid = navigation.getParam("examId")
         lid = navigation.getParam("lessonId")
-        // fetch("http://localhost:8080/api/lesson/"+lessonId+"/widget")
-        //     .then(response => (response.json()))
-        //     .then(widgets => this.setState({widgets}))
+
+        qid = navigation.getParam("questionId")
+
+
+        fetch("http://localhost:8080/api/blanks/"+qid)
+            .then(response => (response.json()))
+            .then(widgets => this.setState({title: widgets.title,
+                description: widgets.description,
+                points: widgets.points,
+                variables: widgets.variables,
+                instructions: widgets.instructions}))
     }
 
     updateForm(newState) {
@@ -76,7 +85,7 @@ class FillInTheBlanksQuestionWidget extends React.Component {
         return(
             <ScrollView>
                 <FormLabel>Title</FormLabel>
-                <FormInput onChangeText={
+                <FormInput value={this.state.title} onChangeText={
                     text => this.updateForm({title: text})
                 }/>
                 <FormValidationMessage>
@@ -84,7 +93,7 @@ class FillInTheBlanksQuestionWidget extends React.Component {
                 </FormValidationMessage>
 
                 <FormLabel>Description</FormLabel>
-                <FormInput onChangeText={
+                <FormInput value={this.state.description} onChangeText={
                     text => this.updateForm({description: text})
                 }
                            multiline={true}/>
@@ -93,7 +102,7 @@ class FillInTheBlanksQuestionWidget extends React.Component {
                 </FormValidationMessage>
 
                 <FormLabel>Variables</FormLabel>
-                <FormInput onChangeText={
+                <FormInput value={this.state.variables} onChangeText={
                     text => this.updateForm({variables: text})
                 }
                 multiline={true}/>
@@ -102,7 +111,7 @@ class FillInTheBlanksQuestionWidget extends React.Component {
                 </FormValidationMessage>
 
                 <FormLabel>Points</FormLabel>
-                <FormInput onChangeText={
+                <FormInput value={this.state.points+""} onChangeText={
                     text => this.updateForm({points: text})
                 }/>
                 <FormValidationMessage>

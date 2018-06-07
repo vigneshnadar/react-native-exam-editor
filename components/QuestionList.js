@@ -160,16 +160,16 @@ class QuestionList extends Component {
             onPress={() => {
               if(question.instructions === "TrueFalse")
                 this.props.navigation
-                  .navigate("TrueFalseQuestionEditor", {examId: examId,questionId: question.id})
+                  .navigate("TrueFalseQuestionEditor", {examId: examId,questionId: question.id,lessonId:lid})
               if(question.instructions === "MultipleChoice")
                 this.props.navigation
-                  .navigate("MultipleChoiceQuestionEditor", {examId: examId,questionId: question.id})
+                  .navigate("MultipleChoiceQuestionEditor", {examId: examId,questionId: question.id,lessonId:lid})
                 if(question.instructions === "Essay")
                     this.props.navigation
-                        .navigate("EssayQuestionWidget", {examId: examId,questionId: question.id})
+                        .navigate("EssayQuestionWidget", {examId: examId,questionId: question.id,lessonId:lid})
                 if(question.instructions  === "Fill in the blanks")
                     this.props.navigation
-                        .navigate("FillInTheBlanksQuestionWidget", {examId: examId,questionId: 0,lessonId:lid})
+                        .navigate("FillInTheBlanksQuestionWidget", {examId: examId,questionId: question.id,lessonId:lid})
 
             }}
             key={index}
